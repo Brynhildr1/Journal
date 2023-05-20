@@ -35,9 +35,7 @@ Might also be interesting into including images into the journal posts. Tho i ha
 Could be cool it include some console rendering/graphics using shapes and colours. Replicating some form of user interface.
 
 The system will probably just operate off console. Unless im looking to implement somesort of userbility in the form of a website or app, i might consider it. But nothing for now. just console inputs.
-
-for now the project is going to remain as a single user system, if perhaps it grows into a multi-user system. then maybe a profile or sharing feature can be considered.
-
+For now the project is going to remain as a single user system, if perhaps it grows into a multi-user system. then maybe a profile or sharing feature can be considered.
 Would be interesting and fun to record some devblogs in the near future depending on the progress of the project, and its potential growth. For now only time can really tell.
 
 
@@ -70,3 +68,16 @@ I have managed to solve some of the issues that i have been having concerning th
 Now that the project is able to successfully build, I am able to have a working project, well mostly, part of the code isnt working so ill have to learn and look into that more.
 Right now the program is able to generate a database within the repository that the project is in, however not build a Table.
 In order to 100% sure of it, I made sure to create a whole new folder and files. Which means that I will have to relink the project to my github.
+
+
+
+21/05/2023 - 1:19 pm:
+Managing to make tables in the database using c++
+CONTENT:
+I still dont quite understand what part of the coding is doing what, but im starting to learn it little by little.
+The issue i had was i was wanting to use the IF NOT EXIST for the table, to only make the table if it doesnt exist; to avoid errors of "this table already exists".
+But without it, it is working. Now i still need to learn to properly manipulate the database using c++.
+
+My short-term goals are to be able to make a user account, saving the credentials to the database.
+Then be able to log in the user running checks if the username or email exists or not. and whether the following password is a match.
+just from glance im imagining that it is going to involve reading the database coloumns at a time. Although I have no idea, something for tomorrows me.
