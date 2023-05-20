@@ -1,0 +1,72 @@
+20/05/2023 - 2:56 am:
+Project start
+CONTENT:
+Currently i have been looking into what projects to start to work on in order to continue growing my c++ knowledge. I've mostly decided that this is the language that I want to focus on for now.
+I have been making projrams like Deathrolling and a hi/lo project that I am calling "Lucky 7". But those are simple, now i want to try something that is a abit more, and also make use of a database, so that i can learn something there aswell.
+For now I have a skeleton program which just functions. It does store/write to any .txt or read from it. It just functions as basic as it can, and just forgets everything.
+Mostly just exists for me to understand some functionality and potential features and the sorts for it.
+
+The current code works like so:
+
+Welcome and ask the user what it wants to do from 3 options:
+1. create a new journal entry
+2. display previous journal entries
+3. exit
+
+If the user enters 1, the console will ask for a title, then contents (this is meant to be the body of the journal), tags (e.g. if i am making a journal entry related to my coding project i will put: "cpp" or "c++"), and Date (e.g. 20/05/2023)
+If the user enters 2, it will display the previous journal entries (this case, the ones made in the same session) in a structure of:
+
+Title
+Contents
+Tags
+Date
+
+Lastly option 3 just closes the program.
+
+So far this is the extent to what the program is doing but I have thought up some new feature to implement in the future.
+
+FUTURE FEATURES / POTENTIAL IMPLEMENTATION:
+Implement the system with a database, SQLite is the most likely use-case for this project
+Have a userID/login system in place. (this will allow users to only see their own journal entries, not those of other people)
+Be able to display journal entries on some form of long-term calendar view (perhaps month by month, along with an over view[something like github commit calendar])
+Be able to filter which entries you want to look at, either by tag or date. Aswell as organizing the entries by tag(alphabetically, ASC/DSC) or by date (newest/oldest)
+Add a search bar, to be able to search for the title or tags or dates of the entries that you want (probably just title, since there will be other ways to search from tags or dates).
+Might also be interesting into including images into the journal posts. Tho i have no idea how to make that happen within console. Seems more like an app/webstie feature.
+Could be cool it include some console rendering/graphics using shapes and colours. Replicating some form of user interface.
+
+The system will probably just operate off console. Unless im looking to implement somesort of userbility in the form of a website or app, i might consider it. But nothing for now. just console inputs.
+
+for now the project is going to remain as a single user system, if perhaps it grows into a multi-user system. then maybe a profile or sharing feature can be considered.
+
+Would be interesting and fun to record some devblogs in the near future depending on the progress of the project, and its potential growth. For now only time can really tell.
+
+
+
+20/05/2023 - 3:51 pm:
+Database start
+CONTENT:
+Downloaded and installed SQLite, and was testing/learning how to create the database through VScode.
+Making use of several extensions, and the mysql.sql to write basic functions to manipulate the database.
+Implementing sqlite.c/.h files for being able to operate the SQLite database using cpp.
+
+Looking to progress the current main.cpp in order to implement reading and writing to the database.
+making user profiles (name/password)
+then storing journal entries.
+
+
+
+20/05/2023 - 6:46 pm:
+Issues with SQLite libraries
+CONTENT:
+Been stuck trying to link the SQLite libraries wiht VScode, however have been struggling. still not sure as to what I am missing.
+I have tried many different methods of installing extensions to help, most notably Nuget however its constantly stating that I am missing some file.
+
+
+
+20/05/2023 - 9:17 pm:
+Resolving project build Issues
+CONTENT:
+I have managed to solve some of the issues that i have been having concerning the building of the project. The issue was lying in the linking of sqlite3 to the g++ build.
+Now that the project is able to successfully build, I am able to have a working project, well mostly, part of the code isnt working so ill have to learn and look into that more.
+Right now the program is able to generate a database within the repository that the project is in, however not build a Table.
+In order to 100% sure of it, I made sure to create a whole new folder and files. Which means that I will have to relink the project to my github.
