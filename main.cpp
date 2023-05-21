@@ -7,7 +7,7 @@
 using namespace std;
 
 static int createDB(const char *s);
-static int createTable(const char *s);
+static int createTable(const char *s, string sql);
 
 // Create a callback function
 int callback(void *NotUsed, int argc, char **argv, char **azColName)
@@ -16,14 +16,132 @@ int callback(void *NotUsed, int argc, char **argv, char **azColName)
     return 0;
 }
 
+// stores all the information for the journal entry
+struct JournalEntry
+{
+    string title;
+    string content;
+    string tags;
+    string date;
+};
+
+vector<JournalEntry> journalEntries;
+
+// gathering the data from the user for the entry
+void createEntry(const char *s)
+{
+
+    JournalEntry entry;
+    sqlite3 *DB;
+
+    cout << "Title: ";
+    getline(cin >> ws, entry.title);
+
+    cout << "Content: ";
+    getline(cin >> ws, entry.content);
+
+    cout << "Tags: ";
+    getline(cin >> ws, entry.tags);
+
+    /*     cout << "Date: ";
+        getline(cin >> ws, entry.date); */
+
+    string sql = "INSERT INTO ENTRIES(TITLE, CONTENT, TAGS) VALUES('" + entry.title + "','" + entry.content + "','" + entry.tags + "');";
+
+    try
+    {
+        int exit = 0;
+        exit = sqlite3_open(s, &DB);
+
+        char *messageError;
+        exit = sqlite3_exec(DB, sql.c_str(), callback, 0, &messageError);
+
+        if (exit != SQLITE_OK)
+        {
+            cerr << "Error creating Entry" << endl;
+            sqlite3_free(messageError);
+        }
+        else
+            cout << "Entry created successfully" << endl;
+        sqlite3_close(DB);
+    }
+    catch (const exception &e)
+    {
+        cerr << e.what();
+    }
+}
+
+// displays the stored entries, this will need to be learnt and probably changed alot
+/* void displayEntries()
+{
+    cout << "------ Journal Entries ------" << endl;
+
+    for (const auto &entry : journalEntries)
+    {
+        cout << "Title: " << entry.title << endl;
+        cout << "Content: " << entry.content << endl;
+        cout << "Tags: " << entry.tags << endl;
+        cout << "Date: " << entry.date << endl;
+        cout << "----------------------------" << endl;
+    }
+
+    if (journalEntries.empty())
+    {
+        cout << "No entries found." << endl;
+    }
+} */
+
 int main()
 {
+    // Variables
+    /*     string title;
+        string content;
+        string tags; */
     const char *dir = "C:\\Users\\ellia\\Desktop\\coding\\Journal\\journal_database.db";
 
     sqlite3 *DB;
 
+    // First time set up for database and tables if they dont already exist
     createDB(dir);
-    createTable(dir);
+    createTable(dir, "CREATE TABLE IF NOT EXISTS ENTRIES("
+                     "TITLE TEXT NOT NULL PRIMARY KEY,"
+                     "CONTENT TEXT NOT NULL,"
+                     "TAGS TEXT NOT NULL);");
+
+    createTable(dir, "CREATE TABLE IF NOT EXISTS USER("
+                     "ID INTEGER NOT NULL PRIMARY KEY,"
+                     "EMAIL NOT NULL,"
+                     "PASSWORD NOT NULL);");
+
+    // user choice to add ar view or exit.
+    int choice;
+
+    do
+    {
+        cout << "----- Journal Application -----" << endl;
+        cout << "1. Create Entry" << endl;
+        cout << "2. Display Entries" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            createEntry(dir);
+            break;
+        case 2:
+            /* displayEntries(); */
+            break;
+        case 3:
+            cout << "Exiting the application. Goodbye!" << endl;
+            break;
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+        }
+
+        cout << endl;
+    } while (choice != 3);
 
     int x;
     cin >> x;
@@ -31,6 +149,7 @@ int main()
     return 0;
 }
 
+// function used to create the database if one doesnt exist at the dir mentioned in main
 static int createDB(const char *s)
 {
     sqlite3 *DB;
@@ -42,14 +161,11 @@ static int createDB(const char *s)
 
     return 0;
 }
-static int createTable(const char *s)
+
+// function used to create the tables with in the database assuming that they do not already exist.
+static int createTable(const char *s, string sql)
 {
     sqlite3 *DB;
-
-    string sql = "CREATE TABLE ENTRIES("
-                 "TITLE TEXT NOT NULL PRIMARY KEY,"
-                 "CONTENT TEXT NOT NULL,"
-                 "TAGS TEXT NOT NULL);";
 
     try
     {
