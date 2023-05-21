@@ -8,11 +8,19 @@ using namespace std;
 
 static int createDB(const char *s);
 static int createTable(const char *s, string sql);
+static int displayEntries(const char *s);
 
 // Create a callback function
-int callback(void *NotUsed, int argc, char **argv, char **azColName)
+static int callback(void *data, int argc, char **argv, char **azColName)
 {
-    // Return successful
+    int i;
+    fprintf(stderr, "%s: ", (const char *)data);
+
+    for (i = 0; i < argc; i++)
+    {
+        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+    }
+    printf("\n");
     return 0;
 }
 
@@ -93,21 +101,19 @@ void createEntry(const char *s)
 
 int main()
 {
-    // Variables
-    /*     string title;
-        string content;
-        string tags; */
     const char *dir = "C:\\Users\\ellia\\Desktop\\coding\\Journal\\journal_database.db";
 
     sqlite3 *DB;
 
     // First time set up for database and tables if they dont already exist
     createDB(dir);
+
+    // Create SQL statement, One time only if doesnt exist
     createTable(dir, "CREATE TABLE IF NOT EXISTS ENTRIES("
-                     "TITLE TEXT NOT NULL PRIMARY KEY,"
+                     "ID INTEGER NOT NULL PRIMARY KEY,"
+                     "TITLE TEXT NOT NULL,"
                      "CONTENT TEXT NOT NULL,"
                      "TAGS TEXT NOT NULL);");
-
     createTable(dir, "CREATE TABLE IF NOT EXISTS USER("
                      "ID INTEGER NOT NULL PRIMARY KEY,"
                      "EMAIL NOT NULL,"
@@ -124,6 +130,7 @@ int main()
         cout << "3. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
+        cout << endl;
 
         switch (choice)
         {
@@ -131,7 +138,7 @@ int main()
             createEntry(dir);
             break;
         case 2:
-            /* displayEntries(); */
+            displayEntries(dir);
             break;
         case 3:
             cout << "Exiting the application. Goodbye!" << endl;
@@ -171,23 +178,50 @@ static int createTable(const char *s, string sql)
     {
         int exit = 0;
         exit = sqlite3_open(s, &DB);
-
         char *messageError;
+
+        // execute SQL statement
         exit = sqlite3_exec(DB, sql.c_str(), callback, 0, &messageError);
 
+        // Error check
         if (exit != SQLITE_OK)
         {
             cerr << "Error creating Table" << endl;
             sqlite3_free(messageError);
         }
         else
-            cout << "Table created successfully" << endl;
-        sqlite3_close(DB);
+            sqlite3_close(DB);
     }
     catch (const exception &e)
     {
         cerr << e.what();
     }
+    return 0;
+}
+
+static int displayEntries(const char *s)
+{
+    sqlite3 *DB;
+    int exit = 0;
+    exit = sqlite3_open(s, &DB);
+    string sql = "SELECT * FROM ENTRIES";
+    char *messageError;
+    const char *data = "Callback function called";
+
+    /* Execute SQL statement */
+    exit = sqlite3_exec(DB, sql.c_str(), callback, (void *)data, &messageError);
+
+    if (exit != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error: %s\n", messageError);
+        sqlite3_free(messageError);
+    }
+    else
+    {
+        fprintf(stdout, "Operation done successfully\n");
+    }
+
+    sqlite3_close(DB);
     return 0;
 }
 

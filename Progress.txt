@@ -38,7 +38,7 @@ The system will probably just operate off console. Unless im looking to implemen
 For now the project is going to remain as a single user system, if perhaps it grows into a multi-user system. then maybe a profile or sharing feature can be considered.
 Would be interesting and fun to record some devblogs in the near future depending on the progress of the project, and its potential growth. For now only time can really tell.
 
-
+-------------------------------------------------------------------------------
 
 20/05/2023 - 3:51 pm:
 Database start
@@ -51,7 +51,7 @@ Looking to progress the current main.cpp in order to implement reading and writi
 making user profiles (name/password)
 then storing journal entries.
 
-
+-------------------------------------------------------------------------------
 
 20/05/2023 - 6:46 pm:
 Issues with SQLite libraries
@@ -59,7 +59,7 @@ CONTENT:
 Been stuck trying to link the SQLite libraries wiht VScode, however have been struggling. still not sure as to what I am missing.
 I have tried many different methods of installing extensions to help, most notably Nuget however its constantly stating that I am missing some file.
 
-
+-------------------------------------------------------------------------------
 
 20/05/2023 - 9:17 pm:
 Resolving project build Issues
@@ -69,7 +69,7 @@ Now that the project is able to successfully build, I am able to have a working 
 Right now the program is able to generate a database within the repository that the project is in, however not build a Table.
 In order to 100% sure of it, I made sure to create a whole new folder and files. Which means that I will have to relink the project to my github.
 
-
+-------------------------------------------------------------------------------
 
 21/05/2023 - 1:19 pm:
 Managing to make tables in the database using c++
@@ -82,9 +82,26 @@ My short-term goals are to be able to make a user account, saving the credential
 Then be able to log in the user running checks if the username or email exists or not. and whether the following password is a match.
 just from glance im imagining that it is going to involve reading the database coloumns at a time. Although I have no idea, something for tomorrows me.
 
+-------------------------------------------------------------------------------
+
 21/05/2023 - 4:53 pm:
 User inserted entries
 CONTENT:
 Added in the ability for a user to input their own journal entry, but for now their is no way to differenciate the entries between the users that are inputing them.
 Also their are no users. my next step should be to make the user system, the table exists for it, but i still have no idea to write from it.
 Doing the 'display entries' section will be a good way to learn. Also the code seems extremely unoptimized, but i know that, and probably wont be thinking about it for a while.
+
+-------------------------------------------------------------------------------
+
+21/05/2023 - 6:46 pm:
+Adding callback for the ENTRIES table
+CONTENT:
+added the ability for the user to be able to print the table contents in command.
+
+Next is probably to add users and accounts, my idea right now is to have each account a ID (random or now) and have them login with a unique username, and a password.
+For that i will also need to learn how I can check if the username coloumn of the USER table already has that name, and if not then it can be used.
+Then have entries that user makes will have the matching ID of that user. 
+This would be so that when a user wants to fetch records from the database it will only fetch the reconds that user has created.
+
+-------------------------------------------------------------------------------
+
