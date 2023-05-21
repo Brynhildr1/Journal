@@ -81,3 +81,10 @@ But without it, it is working. Now i still need to learn to properly manipulate 
 My short-term goals are to be able to make a user account, saving the credentials to the database.
 Then be able to log in the user running checks if the username or email exists or not. and whether the following password is a match.
 just from glance im imagining that it is going to involve reading the database coloumns at a time. Although I have no idea, something for tomorrows me.
+
+21/05/2023 - 4:53 pm:
+User inserted entries
+CONTENT:
+Added in the ability for a user to input their own journal entry, but for now their is no way to differenciate the entries between the users that are inputing them.
+Also their are no users. my next step should be to make the user system, the table exists for it, but i still have no idea to write from it.
+Doing the 'display entries' section will be a good way to learn. Also the code seems extremely unoptimized, but i know that, and probably wont be thinking about it for a while.
