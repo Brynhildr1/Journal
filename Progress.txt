@@ -67,7 +67,7 @@ CONTENT:
 I have managed to solve some of the issues that i have been having concerning the building of the project. The issue was lying in the linking of sqlite3 to the g++ build.
 Now that the project is able to successfully build, I am able to have a working project, well mostly, part of the code isnt working so ill have to learn and look into that more.
 Right now the program is able to generate a database within the repository that the project is in, however not build a Table.
-In order to 100% sure of it, I made sure to create a whole new folder and files. Which means that I will have to relink the project to my github.
+In order to be 100% sure of it, I made sure to create a whole new folder and files. Which means that I will have to relink the project to my github.
 
 -------------------------------------------------------------------------------
 
@@ -102,6 +102,27 @@ Next is probably to add users and accounts, my idea right now is to have each ac
 For that i will also need to learn how I can check if the username coloumn of the USER table already has that name, and if not then it can be used.
 Then have entries that user makes will have the matching ID of that user. 
 This would be so that when a user wants to fetch records from the database it will only fetch the reconds that user has created.
+
+-------------------------------------------------------------------------------
+
+21/05/2023 - 10:29 pm:
+Added createUser functionality
+CONTENT:
+the system is able to create a new user first before moving on to the entry section of the program.
+Having some issues with having the username and ID brought back from the function back to the main to be used.
+
+-------------------------------------------------------------------------------
+
+23/05/2023 - 2:20 pm:
+Lots of very good progress
+CONTENT:
+I have managed to make the function of creating a user both check if that user already exists aswell as returning the username and ID of the new account.
+This is useful so that i can refer to them in the next step for creating entries.
+Before entries however, I have also made a login function for existing users, which will take a username, check if it exists (if not prompt to make one), aswell as check if the password matches that username.
+After the user is logged in, they can create entries, or view entries. when creating an entry, the USERID will be saved along side the entry.
+This will be useful when implementing the view feature which will callback only the entries with that matching ID (i.e. only the entries that user has made, and not others).
+
+The view will be the next feature that i will work on for the project. After that I dont know what else to do right now, maybe add a way to filter when viewing (order made, Tag).
 
 -------------------------------------------------------------------------------
 
