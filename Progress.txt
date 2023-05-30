@@ -126,3 +126,14 @@ The view will be the next feature that i will work on for the project. After tha
 
 -------------------------------------------------------------------------------
 
+31/05/2023 - 1:15 am:
+Progress falloff
+CONTENT:
+Over the past week i havent made any progress at all. mostly due to a lack of motivation to complete the project, i feel like having the end of the project in site was a large deterant from actually doing it.
+Im still not sure what to do afterward, and im also questioning if anything that I have learnt from this project, particularly with SQLite, being actually useful.
+For now all I can do is continue to push and do more, and only time can tell whether or not anything that i have learnt here will be of any use in the future.
+
+I have added in the displayEntries, to display only the current users journal entries by matching the loggedUserID to the USERID created to match when an entry is first made. with that the basics that i wanted to cover are all complete.
+Moving forward im not completely sure what i want to do with this project. whether to add new features or maybe just have it for personal use to replace this current method of progress tracking.
+
+We'll see...

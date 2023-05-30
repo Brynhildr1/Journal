@@ -81,6 +81,27 @@ void createEntry(const char *s, int loggedUserID)
     sqlite3_close(DB);
 }
 
+void displayEntries(const char *s, int loggedUserID)
+{
+    sqlite3 *DB;
+    int rc = sqlite3_open(s, &DB);
+    if (rc != SQLITE_OK)
+    {
+        cerr << "Error opening database: " << sqlite3_errmsg(DB) << endl;
+        sqlite3_close(DB);
+        return;
+    }
+
+    string sql = "SELECT * FROM ENTRIES WHERE UserID = " + to_string(loggedUserID) + ";";
+    rc = sqlite3_exec(DB, sql.c_str(), callback, 0, nullptr);
+    if (rc != SQLITE_OK)
+    {
+        cerr << "Error selecting entries: " << sqlite3_errmsg(DB) << endl;
+    }
+
+    sqlite3_close(DB);
+}
+
 int main()
 {
     const char *dir = "C:\\Users\\ellia\\Desktop\\coding\\Journal\\journal_database.db";
@@ -173,7 +194,7 @@ int main()
             createEntry(dir, loggedUserID);
             break;
         case 2:
-            displayEntries(dir);
+            displayEntries(dir, loggedUserID);
             break;
         case 3:
             cout << "Exiting the application. Goodbye!\n";
@@ -232,7 +253,7 @@ static int createTable(const char *s, const string &sql)
     return 0;
 }
 
-static int displayEntries(const char *s)
+/* static int displayEntries(const char *s)
 {
     sqlite3 *DB;
     int rc = 0;
@@ -240,7 +261,7 @@ static int displayEntries(const char *s)
     string sql = "SELECT * FROM ENTRIES";
     const char *data = "Callback function called";
 
-    /* Execute SQL statement */
+    // Execute SQL statement
     rc = sqlite3_exec(DB, sql.c_str(), callback, (void *)data, nullptr);
 
     if (rc != SQLITE_OK)
@@ -254,7 +275,7 @@ static int displayEntries(const char *s)
 
     sqlite3_close(DB);
     return 0;
-}
+} */
 
 static pair<string, int> createUser(const char *s)
 {
