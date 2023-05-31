@@ -3,6 +3,8 @@
 #include <string>
 #include "sqlite3.h"
 #include <functional>
+#include <ctime>
+#include <iomanip>
 
 using namespace std;
 
@@ -57,7 +59,17 @@ void createEntry(const char *s, int loggedUserID)
     cout << "Tags: ";
     getline(cin >> ws, entry.tags);
 
-    string sql = "INSERT INTO ENTRIES(UserID, TITLE, CONTENT, TAGS) VALUES(" + to_string(loggedUserID) + ",'" + entry.title + "','" + entry.content + "','" + entry.tags + "');";
+    // Get the current date
+    time_t currentTime = time(nullptr);
+    tm *localTime = localtime(&currentTime);
+
+    char dateBuffer[11]; // Buffer to store the formatted date
+
+    // Format the date as DD/MM/YYYY
+    strftime(dateBuffer, sizeof(dateBuffer), "%d/%m/%Y", localTime);
+    entry.date = dateBuffer;
+
+    string sql = "INSERT INTO ENTRIES(UserID, TITLE, CONTENT, TAGS, DATE) VALUES(" + to_string(loggedUserID) + ",'" + entry.title + "','" + entry.content + "','" + entry.tags + "','" + entry.date + "');";
 
     sqlite3 *DB;
     int rc = sqlite3_open(s, &DB);
@@ -92,7 +104,56 @@ void displayEntries(const char *s, int loggedUserID)
         return;
     }
 
-    string sql = "SELECT * FROM ENTRIES WHERE UserID = " + to_string(loggedUserID) + ";";
+    int filter = 0;
+    cout << "How do you want to filter your search\n";
+    cout << "1. Defualt order\n";
+    cout << "2. Search by title\n";
+    cout << "3. Search by date\n";
+    cout << "4. Search by tag\n";
+    cout << "Enter your choice (1 - 4): ";
+    cin >> filter;
+    cout << endl;
+
+    string sql;
+
+    switch (filter) // filters the users Entry search based on their case selection
+    {
+    case 1: // filters by when made, oldest to newest
+        sql = "SELECT * FROM ENTRIES WHERE UserID = " + to_string(loggedUserID) + ";";
+        break;
+    case 2: // filters by a particular title
+    {
+        string title;
+        cout << "Enter a title to search: ";
+        getline(cin >> ws, title);
+        cout << endl;
+        sql = "SELECT * FROM ENTRIES WHERE UserID = " + to_string(loggedUserID) + " AND TITLE = '" + title + "';";
+        break;
+    }
+    case 3: // filters by a particular date
+    {
+        string date;
+        cout << "Enter a date to search (DD/MM/YYYY): ";
+        cin >> date;
+        cout << endl;
+        sql = "SELECT * FROM ENTRIES WHERE UserID = " + to_string(loggedUserID) + " AND DATE = '" + date + "';";
+        break;
+    }
+    case 4: // filters by a particular tag
+    {
+        string tag;
+        cout << "Enter a tag to search: ";
+        cin >> tag;
+        cout << endl;
+        sql = "SELECT * FROM ENTRIES WHERE UserID = " + to_string(loggedUserID) + " AND TAGS = '" + tag + "';";
+        break;
+    }
+    default:
+        cout << "Invalid choice. Please try again." << endl;
+    }
+
+    cout << "\n----------------------------------\n\n";
+
     rc = sqlite3_exec(DB, sql.c_str(), callback, 0, nullptr);
     if (rc != SQLITE_OK)
     {
@@ -110,6 +171,7 @@ int main()
     createTable(dir, "CREATE TABLE IF NOT EXISTS ENTRIES("
                      "ID INTEGER NOT NULL PRIMARY KEY,"
                      "USERID INTEGER NOT NULL,"
+                     "DATE NOT NULL,"
                      "TITLE TEXT NOT NULL,"
                      "CONTENT TEXT NOT NULL,"
                      "TAGS TEXT NOT NULL);");
@@ -252,30 +314,6 @@ static int createTable(const char *s, const string &sql)
     }
     return 0;
 }
-
-/* static int displayEntries(const char *s)
-{
-    sqlite3 *DB;
-    int rc = 0;
-    rc = sqlite3_open(s, &DB);
-    string sql = "SELECT * FROM ENTRIES";
-    const char *data = "Callback function called";
-
-    // Execute SQL statement
-    rc = sqlite3_exec(DB, sql.c_str(), callback, (void *)data, nullptr);
-
-    if (rc != SQLITE_OK)
-    {
-        fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(DB));
-    }
-    else
-    {
-        fprintf(stdout, "Operation done successfully\n");
-    }
-
-    sqlite3_close(DB);
-    return 0;
-} */
 
 static pair<string, int> createUser(const char *s)
 {
